@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://betinnapp-database.c69q2zp4hici.sa-east-1.rds.amazonaws.com:5432/postgres
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: password
+
+  hikari:
+    connectionTimeout: 20000
+    maximumPoolSize: 5
+
+  jpa:
+    open-in-view: true
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8084

@@ -1,6 +1,9 @@
 package com.betinnapp.goalservice.controler;
 
 import com.betinnapp.goalservice.exception.InvalidTokenException;
+import com.betinnapp.goalservice.model.Goal;
+import com.betinnapp.goalservice.model.Interests;
+import com.betinnapp.goalservice.model.Investments;
 import com.betinnapp.goalservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import static java.util.Collections.singletonList;
 
 @CrossOrigin
 @RestController
@@ -19,9 +24,39 @@ public class GoalControler {
 
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping(path = "/list")
-    public List<Module> listModules(@RequestHeader(name = "authorization") String authorization) throws InvalidTokenException {
-        UUID authToken =  UUID.fromString(authorization);
-        userService.tokenIsValid(authToken);
-        return null;
+    public List<Goal> listGoals(@RequestHeader(name = "authorization") String authorization) throws InvalidTokenException {
+//        UUID authToken =  UUID.fromString(authorization);
+//        userService.tokenIsValid(authToken);
+        Goal goal = new Goal();
+        Investments investment = new Investments();
+        Interests interest = new Interests();
+        investment.setInterest(singletonList(interest));
+        goal.setInvestmentType(investment);
+
+        return singletonList(goal);
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @GetMapping(path = "/{id}")
+    public Goal getGoal(@PathVariable("id") String id, @RequestHeader(name = "authorization") String authorization) throws InvalidTokenException {
+//        UUID authToken =  UUID.fromString(authorization);
+//        userService.tokenIsValid(authToken);
+
+        Goal goal = new Goal();
+        Investments investment = new Investments();
+        Interests interest = new Interests();
+        investment.setInterest(singletonList(interest));
+        goal.setInvestmentType(investment);
+
+        return goal;
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @GetMapping(path = "/types")
+    public List<Investments> listInvestments() {
+        Investments investment = new Investments();
+        Interests interest = new Interests();
+        investment.setInterest(singletonList(interest));
+        return singletonList(investment);
     }
 }

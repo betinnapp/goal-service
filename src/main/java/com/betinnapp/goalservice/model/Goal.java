@@ -4,7 +4,6 @@ import com.betinnapp.goalservice.model.type.StatusType;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.lang.management.BufferPoolMXBean;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -26,7 +25,7 @@ public class Goal {
     private String name;
 
     @Column
-    private BigDecimal monthlyIncome;
+    private BigDecimal monthlyDeposit;
 
     @Column
     private BigDecimal depositTotal;
@@ -59,6 +58,10 @@ public class Goal {
     @Column
     private StatusType status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public UUID getId() {
         return id;
     }
@@ -75,12 +78,12 @@ public class Goal {
         this.name = name;
     }
 
-    public BigDecimal getMonthlyIncome() {
-        return monthlyIncome;
+    public BigDecimal getMonthlyDeposit() {
+        return monthlyDeposit;
     }
 
-    public void setMonthlyIncome(BigDecimal monthlyIncome) {
-        this.monthlyIncome = monthlyIncome;
+    public void serMonthlyDeposit(BigDecimal monthlyDeposit) {
+        this.monthlyDeposit = monthlyDeposit;
     }
 
     public BigDecimal getDepositTotal() {
@@ -161,5 +164,13 @@ public class Goal {
 
     public void setStatus(StatusType status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

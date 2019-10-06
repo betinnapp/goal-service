@@ -1,6 +1,7 @@
 package com.betinnapp.goalservice.service;
 
 import com.betinnapp.goalservice.model.Goal;
+import com.betinnapp.goalservice.model.User;
 import com.betinnapp.goalservice.repository.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,13 @@ public class GoalService {
     public List<Goal> findUserGoals(UUID token){
         UUID userId = userService.findUserIdByToken(token);
         return goalRepository.findByUserId(userId);
+    }
+
+    public Goal create(Goal goal, UUID token){
+        User user = userService.findUserByToken(token);
+        goal.setLastUpdateDate(goal.getStartDate());
+        goal.setUser(user);
+        return goalRepository.save(goal);
     }
 
 

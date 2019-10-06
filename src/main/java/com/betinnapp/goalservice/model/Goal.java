@@ -1,6 +1,7 @@
 package com.betinnapp.goalservice.model;
 
 import com.betinnapp.goalservice.model.type.StatusType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -60,6 +61,7 @@ public class Goal {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public UUID getId() {

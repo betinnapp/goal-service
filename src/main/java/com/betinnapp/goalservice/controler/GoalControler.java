@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,5 +48,14 @@ public class GoalControler {
     @GetMapping(path = "/types")
     public List<Investments> listInvestments() {
         return investmentsService.findAll();
+    }
+
+    @ResponseStatus(code = HttpStatus.CREATED)
+    @PostMapping
+    public Goal create(@Valid @RequestBody Goal goal, @RequestHeader(name = "authorization") String authorization) throws InvalidTokenException {
+        UUID authToken = UUID.fromString(authorization);
+        userService.tokenIsValid(authToken);
+
+        return goalService.create(goal,authToken);
     }
 }

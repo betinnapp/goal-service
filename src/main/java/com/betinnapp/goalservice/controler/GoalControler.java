@@ -3,6 +3,7 @@ package com.betinnapp.goalservice.controler;
 import com.betinnapp.goalservice.exception.InvalidTokenException;
 import com.betinnapp.goalservice.model.Goal;
 import com.betinnapp.goalservice.model.Investments;
+import com.betinnapp.goalservice.model.dto.CurrentDepositDTO;
 import com.betinnapp.goalservice.service.GoalService;
 import com.betinnapp.goalservice.service.InvestmentsService;
 import com.betinnapp.goalservice.service.UserService;
@@ -45,6 +46,22 @@ public class GoalControler {
     }
 
     @ResponseStatus(code = HttpStatus.OK)
+    @PutMapping(path = "/{id}/deposit")
+    public Goal updateGoal(@PathVariable("id") String id, @RequestHeader(name = "authorization") String authorization, @RequestBody CurrentDepositDTO currentDeposit) throws InvalidTokenException {
+        UUID authToken = UUID.fromString(authorization);
+        userService.tokenIsValid(authToken);
+        return goalService.updateGoalById(UUID.fromString(id), currentDeposit);
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @DeleteMapping(path = "/{id}")
+    public void deleteGoal(@PathVariable("id") String id, @RequestHeader(name = "authorization") String authorization) throws InvalidTokenException {
+        UUID authToken = UUID.fromString(authorization);
+        userService.tokenIsValid(authToken);
+        goalService.deleteGoalById(UUID.fromString(id));
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
     @GetMapping(path = "/types")
     public List<Investments> listInvestments() {
         return investmentsService.findAll();
@@ -56,6 +73,6 @@ public class GoalControler {
         UUID authToken = UUID.fromString(authorization);
         userService.tokenIsValid(authToken);
 
-        return goalService.create(goal,authToken);
+        return goalService.create(goal, authToken);
     }
 }
